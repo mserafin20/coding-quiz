@@ -1,13 +1,42 @@
 var scoreEl = document.querySelector('#score');
 var score = 0;
 var timerEl = document.querySelector('#time-seconds');
-var time = 500;
+var time = 80;
 var timerInterval = 0;
+
+
+var questionAnswers = [ 
+    {
+        question: "1. Commonly used data types DO Not include: ",
+        answers: ['A. Strings', 'B. Booleans', 'C. Alerts', 'D. Numbers'],
+        correct: 'C. Alerts'
+    },
+    {
+        question: "2. The condition in an if/else statement is enclosed with ________. ",
+        answers: ['A. Quotes', 'B. Curly Brackets', 'C. Parenthesis', 'D. Square Brackets'],
+        correct: 'C. Parenthesis'
+    },
+    {
+        question: "3. Arrays in JavaScript can be used to store ______. ",
+        answers: ['A. Numbers and Strings', 'B. Other Arrays', 'C. Booleans', 'D. All the above'],
+        answer: 'D All the above'
+    },
+    {
+        question: "4. String values must be enclosed within _____ when being assigned to variables.",
+        answers: ['A. Commas', 'B. Curly Brackets', 'C. Quotes', 'D. Parenthesis'],
+        correct: 'C. Quotes'
+    },
+    {
+        question: "5. A very useful tool used during development and debugging for printing content to the debugger is: ",
+        answers: ['A. JavaScript', 'B. Terminal/Bash', 'C. For Loops', 'D. console.log'],
+        correct: 'D. console.log'
+    },
+];
 
 console.log("Test connected main.js");
 
 // one box for a timer 
-function startTimer() {
+function startQuiz() {
     time = 500;
     timerEl.textContent = `time left: ${time}`;
 
@@ -18,7 +47,7 @@ function startTimer() {
     }, 1000);
 }
 
-startTimer();
+startQuiz();
 
 
 
@@ -52,7 +81,7 @@ startButton.addEventListener("click", function (event) {
     else {
         document.querySelector("#time-seconds").dataset.state = "started";
         //timer reset
-      startTimer()
+      startQuiz()
     }
 });
 
