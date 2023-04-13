@@ -1,14 +1,14 @@
 var scoreEl = document.querySelector('#score');
 var score = 0;
 var timerEl = document.querySelector('#time-seconds');
-var time = 180;
+var time = 500;
 var timerInterval = 0;
 
 console.log("Test connected main.js");
 
 // one box for a timer 
 function startTimer() {
-    time = 180;
+    time = 500;
     timerEl.textContent = `time left: ${time}`;
 
     timerInterval = setInterval(function () {
@@ -56,8 +56,35 @@ startButton.addEventListener("click", function (event) {
     }
 });
 
-// one button to add 1 to score (shows a message)
+// This button is for correct answers (shows a message "Correct!")
 
-var scoreButton = document.createElement("button");
+var correctAnswerButton = document.createElement("button");
 
-// one button to subtract 1 from score (shows a message)
+correctAnswerButton.setAttribute("type", "button");
+correctAnswerButton.setAttribute("class", "btn btn-success");
+correctAnswerButton.textContent = "Success Button";
+
+document.querySelector("#main-space").appendChild(correctAnswerButton);
+
+correctAnswerButton.addEventListener("click", function(event) {
+    // console.log("event listener works");
+    // console.log(event.target);
+    score++;
+    scoreEl.textContent = `score: ${score}`;
+});
+
+// This button is for incorrect answers and substracts 10 seconds from time score ("Incorrect!")
+
+var wrongAnswerButton = document.createElement("button");
+
+wrongAnswerButton.setAttribute("type", "button");
+wrongAnswerButton.setAttribute("class", "btn btn-danger");
+wrongAnswerButton.textContent = "Fail button";
+
+document.querySelector("#main-space").appendChild(wrongAnswerButton);
+
+wrongAnswerButton.addEventListener("click", function(event) {
+    time -= 10;
+    timerEl.textContent = `time left: ${time}`;
+});
+
