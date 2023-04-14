@@ -4,6 +4,7 @@ var timerEl = document.querySelector('#time-seconds');
 var time = 80;
 var timerInterval = 0;
 
+// Questions and answers
 
 var questionAnswers = [ 
     {
@@ -33,11 +34,17 @@ var questionAnswers = [
     },
 ];
 
-console.log("Test connected main.js");
+// console.log("Test connected main.js");
 
-// one box for a timer 
-function startQuiz() {
-    time = 500;
+// function to start the quiz
+
+
+
+// funtion to start the timer 
+
+
+function startTimer() {
+    time = 80;
     timerEl.textContent = `time left: ${time}`;
 
     timerInterval = setInterval(function () {
@@ -47,7 +54,7 @@ function startQuiz() {
     }, 1000);
 }
 
-startQuiz();
+startTimer();
 
 
 
@@ -81,7 +88,7 @@ startButton.addEventListener("click", function (event) {
     else {
         document.querySelector("#time-seconds").dataset.state = "started";
         //timer reset
-      startQuiz()
+      startTimer()
     }
 });
 
