@@ -2,7 +2,7 @@ let startButton = document.createElement('button');
 let questionElement = document.getElementById('questions');
 let timerElement = document.querySelector('#time-seconds');
 let questionIndex = 0;
-let time = 80;
+let time = 30;
 let score = 0;
 let scoreElement = document.querySelector('#score');
 let boxElement = document.querySelector('#coding-quiz');
@@ -15,68 +15,68 @@ let leaderboardElement = document.querySelector('#leaderboard');
 var questionBoxes = [
     {
         question: "1. Commonly used data types DO Not include: ",
-        answers: ['A. Strings', 'B. Booleans', 'C. Alerts', 'D. Numbers'],
-        correct: 'C. Alerts'
+        answers: ['Strings', 'Booleans', 'Alerts', 'Numbers'],
+        correct: 'Alerts'
     },
     {
         question: "2. The condition in an if/else statement is enclosed with ________. ",
-        answers: ['A. Quotes', 'B. Curly Brackets', 'C. Parenthesis', 'D. Square Brackets'],
-        correct: 'C. Parenthesis'
+        answers: ['Quotes', 'Curly Brackets', 'Parenthesis', 'Square Brackets'],
+        correct: 'Parenthesis'
     },
     {
         question: "3. Arrays in JavaScript can be used to store ______. ",
-        answers: ['A. Numbers and Strings', 'B. Other Arrays', 'C. Booleans', 'D. All the above'],
-        answer: 'D All the above'
+        answers: ['Numbers and Strings', 'Other Arrays', 'Booleans', 'All the above'],
+        correct: 'All the above'
     },
     {
         question: "4. String values must be enclosed within _____ when being assigned to variables.",
-        answers: ['A. Commas', 'B. Curly Brackets', 'C. Quotes', 'D. Parenthesis'],
-        correct: 'C. Quotes'
+        answers: ['Commas', 'Curly Brackets', 'Quotes', 'Parenthesis'],
+        correct: 'Quotes'
     },
     {
         question: "5. A very useful tool used during development and debugging for printing content to the debugger is: ",
-        answers: ['A. JavaScript', 'B. Terminal/Bash', 'C. For Loops', 'D. console.log'],
-        correct: 'D. console.log'
+        answers: ['JavaScript', 'Terminal/Bash', 'For Loops', 'console.log'],
+        correct: 'console.log'
     },
 ];
 
 let options = questionBoxes[questionIndex].options;
 
-scoreElement.textContent = `Score: ${score}`;
-timerElement.textContent = `Time Left: ${time}`;
+scoreElement.textContent = `SCORE: ${score}`;
+timerElement.textContent = `TIME LEFT: ${time}`;
 startButton.setAttribute("type", "button");
-startButton.classList.add("btn", "btn-primary");
-startButton.textContent = "Start Quiz";
+startButton.classList.add("btn");
+startButton.classList.add("btn-primary");
+startButton.textContent = "Start/Stop Button";
 
 document.querySelector("#main-space").appendChild(startButton);
-startButton.addEventListener("click", function () {
-    if (!timerStarted) {
+startButton.addEventListener("click", function(){   
+    if(!timerStarted){
         timerStarted = true;
-        time = 80;
-        timerInterval = setInterval(function () {
+        time = 30;
+        timerInterval = setInterval( function() {
             time--;
-            timerElement.textContent = `Time Left: ${time}`;
-            checkTime();
+            timerElement.textContent = `TIME LEFT: ${time}`;
+            checkTime();      
         }, 1000);
     } else {
-        clearInterval(timerInterval);
-        timerStarted = false;
-    }
+       clearInterval(timerInterval);
+       timerStarted = false;      
+    }    
     startQuiz();
 });
-// console.log("Test connected main.js");
-// function to start the quiz
-function startQuiz(currentQuestion) {
+
+ function startQuiz(currentQuestion){
     questionElement.classList.add("questionElement");
-    questionIndex = 0;
-    currentQuestion = questions[questionIndex];
+    questionIndex = 0;    
+    currentQuestion = questionBoxes[questionIndex];    
     showQuestion();
     for (i = 0; i < buttonContainer.length; i++) {
-        buttonContainer[i].addEventListener("click", function () {
+        buttonContainer[i].addEventListener("click", function() {
             if (this.textContent === currentQuestion.correct) {
                 score++;
             } else {
-                time -= 5
+             time -=5
             }
             if (questionIndex === questions.length - 1) {
                 endQuiz(time);
@@ -92,37 +92,38 @@ function startQuiz(currentQuestion) {
 
 startButton.addEventListener("click", startQuiz);
 
-let currentQuestion = questions[questionIndex];
+let currentQuestion = questionBoxes[questionIndex];
 
-function showQuestion() {
+function showQuestion(){
     questionElement.innerHTML = "";
     var question = document.createElement("div");
+    currentQuestion = questionBoxes[questionIndex];
     question.textContent = currentQuestion.question;
     questionElement.appendChild(question);
-    for (i = 0; i < currentQuestion.options.length; i++) {
+    for (i = 0; i < currentQuestion.options.length; i++){
         var option = document.createElement("button");
         option.classList.add("optionButtons");
         option.textContent = currentQuestion.options[i];
         questionElement.appendChild(option);
-        option.addEventListener("click", function () {
+        option.addEventListener("click", function(){
             console.log(currentQuestion.correct);
-            if (this.textContent === currentQuestion.correct) {
-                score++;
+            if (this.textContent === currentQuestion.correct){
+                score++
             } else {
-                time -= 5
+                time -= 5;
             }
             questionIndex++;
-            if(questionIndex >= questionBoxes.length) {
+            if (questionIndex >= questionBoxes.length) {
                 endQuiz(time);
             } else {
                 currentQuestion = questionBoxes[questionIndex];
-                showQuestion();
+                showQuestion(currentQuestion);
             }
-            scoreElement.textContent = `Score: ${score}`;
-            timerElement.textContent = `Time Left: ${time}`;
+            scoreElement.textContent = `SCORE: ${score}`;
+            timerElement.textContent = `TIME LEFT: ${time}`;
         })
-    }
-}
+    }             
+};
 
 function checkTime() {
     if (time <= 0) {
@@ -131,100 +132,47 @@ function checkTime() {
 };
 
 timerElement.classList.add("timer");
-timerElement.classList.add("score");
+scoreElement.classList.add("score");
 
-function generateLeaderboard (userInfo) {
+function generateLeaderboard(userInfo) {
     if (localStorage.getItem("leaderboard") === null) {
-        localStorage.setItem("leaderboard", JSON.stringify([userInfo]));
-    } else {
-        let leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+       localStorage.setItem("leaderboard", JSON.stringify([userInfo]));
+    } else {    
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    leaderboard.push(userInfo);
+    leaderboard.sort((a, b) => b.score - a.score);
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
     }
     return localStorage;
 }
 
+function displayLeaderboard(leaderboard) {    
+    var leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    var leaderboardContent = document.createElement("div");
+    leaderboardContent.classList.add("leaderboardContent");
+    for (i = 0; i < 5 && i < leaderboard.length; i++) {
+        leaderboardContent.innerHTML += `</br><p>${leaderboard[i].firstName}: ${leaderboard[i].score}</p>`;
+    }    
+    leaderboardElement.appendChild(leaderboardContent);
+}
 
+function endQuiz(time) {
+    clearInterval(timerInterval);
+    var gameOver = document.createElement("div");    
+    gameOver.classList.add("gameOver");
+    questionElement.style.display = "none";
+    var firstNameInput = prompt("Please enter your name");    
+    var userInfo = { 
+        firstName: firstNameInput,
+        score: parseInt(score) + parseInt(time)       
+      }
+    gameOver.innerHTML = `
+        <h2 id="">GAME OVER</h2>
+        <p>${userInfo.firstName}, Your score is ${userInfo.score}</p><button onclick="location.reload()">Restart</button></p>`
+    boxElement.appendChild(gameOver);
+    displayLeaderboard(generateLeaderboard(userInfo));
+}
 
-// funtion to start the timer
+boxElement.style.backgroundColor = "lightblue";
 
-
-// function startTimer() {
-//     time = 80;
-//     timerEl.textContent = `time left: ${time}`;
-
-//     timerInterval = setInterval(function () {
-//         time--;
-//         timerEl.textContent = `time left: ${time}`;
-
-//     }, 1000);
-// }
-
-// startTimer();
-
-
-
-// // one box for a score
-
-// scoreEl.textContent = `score: ${score}`;
-
-
-
-// // create buttons
-// // <button type="button" class="btn btn-primary">Base class</button>
-
-
-// var startButton = document.createElement("button");
-
-// startButton.setAttribute("class", "btn btn-primary")
-// startButton.textContent = "Start Button";
-
-// document.querySelector("#main-space").appendChild(startButton);
-
-
-// // Click Event
-// startButton.addEventListener("click", function (event) {
-//     console.log(event);
-
-//     var state = document.querySelector("#time-seconds").dataset.state;
-//     if (state === "started") {
-//         document.querySelector("#time-seconds").dataset.state = "stopped";
-//         clearInterval(timerInterval);
-//     }
-//     else {
-//         document.querySelector("#time-seconds").dataset.state = "started";
-//         //timer reset
-//       startTimer()
-//     }
-// });
-
-// // This button is for correct answers (shows a message "Correct!")
-
-// var correctAnswerButton = document.createElement("button");
-
-// correctAnswerButton.setAttribute("type", "button");
-// correctAnswerButton.setAttribute("class", "btn btn-success");
-// correctAnswerButton.textContent = "Success Button";
-
-// document.querySelector("#main-space").appendChild(correctAnswerButton);
-
-// correctAnswerButton.addEventListener("click", function(event) {
-//     // console.log("event listener works");
-//     // console.log(event.target);
-//     score++;
-//     scoreEl.textContent = `score: ${score}`;
-// });
-
-// // This button is for incorrect answers and substracts 10 seconds from time score ("Incorrect!")
-
-// var wrongAnswerButton = document.createElement("button");
-
-// wrongAnswerButton.setAttribute("type", "button");
-// wrongAnswerButton.setAttribute("class", "btn btn-danger");
-// wrongAnswerButton.textContent = "Fail button";
-
-// document.querySelector("#main-space").appendChild(wrongAnswerButton);
-
-// wrongAnswerButton.addEventListener("click", function(event) {
-//     time -= 10;
-//     timerEl.textContent = `time left: ${time}`;
-// });
 
